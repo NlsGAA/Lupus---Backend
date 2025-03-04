@@ -1,0 +1,43 @@
+import { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
+import { z } from 'zod'
+import { hash } from 'bcryptjs'
+import { createUser } from '../functions/create-user'
+import { findUserByEmail } from '../functions/find-user-by-email'
+
+export const createUserRoute: FastifyPluginAsyncZod = async app => {
+    app.post(
+        '/user/create',
+        {
+            schema: {
+                summary: 'Create a new user',
+                tags: ['user'],
+                body: z.object({
+                    email: z.string().email(),
+                    password: z.string().min(6),
+                }),
+                response: {
+                    201: z.object({
+                        userId: z.number(),
+                    }),
+                },
+            },
+        },
+        async (req, res) => {
+            const { email, password } = req.body
+
+            const userExists = await findUserByEmail(email)
+
+            if(userExists != '') {
+                throw new Error('User already exists')
+            }
+
+            const password_hash = await hash(password, 6)
+
+            const { userId } = await createUser({ email, password: password_hash })
+
+            return res.status(201).send({
+                userId
+            })
+        }
+    )    
+}

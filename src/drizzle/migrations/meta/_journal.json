@@ -8,6 +8,13 @@
       "when": 1740929792865,
       "tag": "0000_freezing_kulan_gath",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1741099414686,
+      "tag": "0001_ordinary_scorpion",
+      "breakpoints": true
     }
   ]
 }
