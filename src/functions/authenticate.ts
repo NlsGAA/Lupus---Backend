@@ -15,6 +15,8 @@ export async function authenticateUser({ email, password }: AuthenticateUserProp
 
     const userData = user[0]
 
+    console.log(user)
+
     const passwordMatch = await compare(password, userData.password)
 
     if(!passwordMatch) {

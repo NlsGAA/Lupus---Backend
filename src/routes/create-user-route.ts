@@ -25,10 +25,10 @@ export const createUserRoute: FastifyPluginAsyncZod = async app => {
         async (req, res) => {
             const { email, password } = req.body
 
-            const userExists = await findUserByEmail(email)
+            const { user } = await findUserByEmail(email)
 
-            if(userExists != '') {
-                throw new Error('User already exists')
+            if (user.length > 0) {
+                throw new Error('User already exists.')
             }
 
             const password_hash = await hash(password, 6)
