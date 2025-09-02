@@ -7,7 +7,7 @@ export const authenticateUserRoute: FastifyPluginAsyncZod = async app => {
         '/user/authenticate',
         {
             schema: {
-                summary: 'Authenticate an user',
+                summary: 'Autenticação de usuário',
                 tags: ['user'],
                 body: z.object({
                     email: z.string().email(),
