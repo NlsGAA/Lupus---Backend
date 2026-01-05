@@ -14,7 +14,7 @@ export const getTotalAmountRoute: FastifyPluginAsyncZod = async app => {
                     200: z.object({
                         walletAmount: z.array(z.object({
                             // balance: z.string(),
-                            debt: z.string().nullable(),
+                            debt_in_cents: z.number(),
                             // totalAmount: z.string(),
                         })),
                     }),
@@ -28,5 +28,5 @@ export const getTotalAmountRoute: FastifyPluginAsyncZod = async app => {
                 walletAmount
             })
         }
-    )    
+    )
 }
