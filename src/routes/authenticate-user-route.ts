@@ -15,10 +15,11 @@ export const authenticateUserRoute: FastifyPluginAsyncZod = async app => {
                 }),
                 response: {
                     201: z.object({
-                        userData: z.object({
-                            id: z.number(),
-                            email: z.string(),
-                            password: z.string(),
+                        id: z.number(),
+                        email: z.string(),
+                        wallet: z.object({
+                            balanceInCents: z.number(),
+                            debtInCents: z.number(),
                         }),
                     }),
                 },
@@ -29,9 +30,7 @@ export const authenticateUserRoute: FastifyPluginAsyncZod = async app => {
 
             const user = await authenticateUser({ email, password })
 
-            return res.status(201).send({
-                userData: user
-            })
+            return res.status(201).send(user)
         }
-    )    
+    )
 }

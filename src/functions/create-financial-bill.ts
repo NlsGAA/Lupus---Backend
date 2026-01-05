@@ -2,28 +2,31 @@ import { db } from "../drizzle/client"
 import { financialBills } from "../drizzle/schema/financial_bills"
 
 interface CreateFinancialBillParams {
+    userId: number
     title: string
-    value: string
+    value: number
     dueDate: string
     paymentKey: string | null
-    paid: boolean
+    isPaid: boolean
 }
 
 export async function createFinancialBill({
+    userId,
     title,
-    value,
+    value: valueInCents,
     dueDate,
     paymentKey,
-    paid,
+    isPaid,
 }: CreateFinancialBillParams) {
     const result = await db
         .insert(financialBills)
         .values({
+           userId,
            title,
-           value,
+           valueInCents,
            dueDate,
            paymentKey,
-           paid,
+           isPaid,
         })
         .returning()
 

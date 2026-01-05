@@ -9,6 +9,6 @@ export const financialBills = pgTable('financial_bills', {
     dueDate: varchar('due_date').notNull(),
     paymentKey: varchar('payment_key', { length: 150 }),
     isPaid: boolean('is_paid').default(false).notNull(),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at').notNull().defaultNow(),
+    createdAt: timestamp('created_at').defaultNow(),
+    updatedAt: timestamp('updated_at').defaultNow(),
 })

@@ -14,12 +14,14 @@ export const listAllFinancialBillsRoute: FastifyPluginAsyncZod = async app => {
                     200: z.object({
                         financialBills: z.array(z.object({
                             id: z.string(),
+                            userId: z.number(),
                             title: z.string(),
-                            value: z.string(),
+                            valueInCents: z.number(),
                             dueDate: z.string(),
                             paymentKey: z.string().nullish(),
-                            paid: z.boolean(),
-                            createdAt: z.date(),
+                            isPaid: z.boolean(),
+                            createdAt: z.date().nullish(),
+                            updatedAt: z.date().nullish(),
                         })),
                     }),
                 },
@@ -32,5 +34,5 @@ export const listAllFinancialBillsRoute: FastifyPluginAsyncZod = async app => {
                 financialBills
             })
         }
-    )    
+    )
 }
