@@ -9,14 +9,20 @@ import { createUserRoute } from "./routes/create-user-route";
 import { authenticateUserRoute } from "./routes/authenticate-user-route";
 import { getBillInfoRoute } from "./routes/get-bill-info-route";
 import { deleteBillRoute } from "./routes/delete-bill-route";
+import { updateFinancialBillRoute } from "./routes/update-financial-route";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
 app.setSerializerCompiler(serializerCompiler)
 app.setValidatorCompiler(validatorCompiler)
 
-app.register(fastifyCors)
+app.register(fastifyCors, {
+    origin: true,
+    methods: ['GET', 'POST', 'DELETE', 'PATCH', 'OPTIONS'],
+})
+
 app.register(createFinancialBillRoute)
+app.register(updateFinancialBillRoute)
 app.register(listAllFinancialBillsRoute)
 app.register(getTotalAmountRoute)
 app.register(createUserRoute)

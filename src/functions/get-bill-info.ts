@@ -8,5 +8,7 @@ export async function getBillInfo(billId: string){
         .from(financialBills)
         .where(sql`${financialBills.id} = ${billId}`)
 
-    return financialBillInfo
+    const bill = financialBillInfo[0]
+
+    return bill
 }
