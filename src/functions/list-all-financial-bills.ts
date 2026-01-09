@@ -5,6 +5,11 @@ export async function listAllFinancialBill(){
     const allFinancialBills = await db
         .select()
         .from(financialBills)
+        .orderBy(
+            financialBills.isPaid,
+            financialBills.dueDate,
+            financialBills.title
+        )
 
     return allFinancialBills
 }

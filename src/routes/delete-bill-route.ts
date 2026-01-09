@@ -17,7 +17,7 @@ export const deleteBillRoute: FastifyPluginAsyncZod = async app => {
             },
         },
         async (req, res) => {
-            const billId = req.params.billId
+            const { billId } = req.params
 
             await deleteBill(billId)
 

@@ -10,6 +10,8 @@ import { authenticateUserRoute } from "./routes/authenticate-user-route";
 import { getBillInfoRoute } from "./routes/get-bill-info-route";
 import { deleteBillRoute } from "./routes/delete-bill-route";
 import { updateFinancialBillRoute } from "./routes/update-financial-route";
+import { getUserWalletRoute } from "./routes/get-user-wallet-route";
+import { payFinancialBillRoute } from "./routes/pay-financial-bill-route";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -29,6 +31,8 @@ app.register(createUserRoute)
 app.register(authenticateUserRoute)
 app.register(getBillInfoRoute)
 app.register(deleteBillRoute)
+app.register(getUserWalletRoute)
+app.register(payFinancialBillRoute)
 
 app.listen({
     host: '0.0.0.0',
