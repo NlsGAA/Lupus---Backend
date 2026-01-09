@@ -4,9 +4,9 @@ import { financialBills } from "../drizzle/schema/financial_bills"
 
 export async function getTotalAmount(){
     const walletAmount = await db
-        .select({ debt: financialBills.value })
+        .select({ debt_in_cents: financialBills.valueInCents })
         .from(financialBills)
-        .where(sql`${financialBills.paid} = false`)
+        .where(sql`${financialBills.isPaid} = false`)
 
     return walletAmount
 }

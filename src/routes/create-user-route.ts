@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { hash } from 'bcryptjs'
 import { createUser } from '../functions/create-user'
 import { findUserByEmail } from '../functions/find-user-by-email'
+import { createUserWallet } from '../functions/create-user-wallet'
 
 export const createUserRoute: FastifyPluginAsyncZod = async app => {
     app.post(
@@ -18,6 +19,11 @@ export const createUserRoute: FastifyPluginAsyncZod = async app => {
                 response: {
                     201: z.object({
                         userId: z.number(),
+                        wallet: z.object({
+                            walletId: z.number(),
+                            balanceInCents: z.number(),
+                            debtInCents: z.number(),
+                        }),
                     }),
                 },
             },
@@ -35,9 +41,12 @@ export const createUserRoute: FastifyPluginAsyncZod = async app => {
 
             const { userId } = await createUser({ email, password: password_hash })
 
+            const userWallet = await createUserWallet(userId)
+
             return res.status(201).send({
-                userId
+                userId,
+                wallet: userWallet
             })
         }
-    )    
+    )
 }

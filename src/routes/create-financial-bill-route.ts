@@ -10,11 +10,12 @@ export const createFinancialBillRoute: FastifyPluginAsyncZod = async app => {
                 summary: 'Create a new financial bill',
                 tags: ['financial-bill'],
                 body: z.object({
+                    userId: z.coerce.number(),
                     title: z.string().min(3),
-                    value: z.string().min(1),
+                    value: z.number().min(0.01),
                     dueDate: z.string(),
                     paymentKey: z.string().nullable(),
-                    paid: z.boolean(),
+                    isPaid: z.boolean(),
                 }),
                 response: {
                     201: z.object({
@@ -24,19 +25,20 @@ export const createFinancialBillRoute: FastifyPluginAsyncZod = async app => {
             },
         },
         async (req, res) => {
-            const { title, value, dueDate, paymentKey, paid } = req.body
+            const { userId, title, value, dueDate, paymentKey, isPaid } = req.body
 
             const { financialBillId } = await createFinancialBill({
+                userId,
                 title,
                 value,
                 dueDate,
                 paymentKey,
-                paid
+                isPaid
             })
 
             return res.status(201).send({
                 financialBillId
             })
         }
-    )    
+    )
 }

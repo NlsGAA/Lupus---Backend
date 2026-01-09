@@ -11,7 +11,7 @@ export async function createUser(data: CreateUserProps) {
         .insert(userSchema)
         .values(data)
         .returning()
-    
+
     const userData = user[0]
 
     return {

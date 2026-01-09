@@ -1,18 +1,14 @@
-
 import { z } from 'zod'
-import { getBillInfo } from '../functions/get-bill-info'
+import { payBillByPk } from '../functions/pay-bill-by-pk'
 import { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 
-export const getBillInfoRoute: FastifyPluginAsyncZod = async app => {
-    app.get(
-        '/financial-bill/get/:billId',
+export const payFinancialBillRoute: FastifyPluginAsyncZod = async app => {
+    app.post(
+        '/financial/:id/pay',
         {
             schema: {
-                summary: 'Get info about a specific bill',
+                summary: 'Pay a specific bill',
                 tags: ['financial-bill'],
-                params: z.object({
-                    billId: z.string(),
-                }),
                 response: {
                     200: z.object({
                         id: z.string(),
@@ -28,12 +24,12 @@ export const getBillInfoRoute: FastifyPluginAsyncZod = async app => {
                 },
             },
         },
-        async (req, _) => {
-            const { billId } = req.params
+        async (req, res) => {
+            const { id } = req.params as { id: string }
 
-            const bill = await getBillInfo(billId)
+            const billPaid = await payBillByPk({ id })
 
-            return bill
+            return res.status(201).send(billPaid)
         }
     )
 }

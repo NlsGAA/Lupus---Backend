@@ -1,5 +1,5 @@
 {
-  "id": "631c95b7-7959-47b4-b39a-32791e5ca66a",
+  "id": "989e72df-24b5-4687-a383-679112be0e8f",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -15,6 +15,12 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
+        "user_id": {
+          "name": "user_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
         "title": {
           "name": "title",
           "type": "varchar(150)",
@@ -23,10 +29,9 @@
         },
         "value": {
           "name": "value",
-          "type": "varchar",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "default": "'0'"
+          "notNull": true
         },
         "due_date": {
           "name": "due_date",
@@ -40,8 +45,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "paid": {
-          "name": "paid",
+        "is_paid": {
+          "name": "is_paid",
           "type": "boolean",
           "primaryKey": false,
           "notNull": true,
@@ -53,10 +58,31 @@
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "financial_bills_user_id_user_id_fk": {
+          "name": "financial_bills_user_id_user_id_fk",
+          "tableFrom": "financial_bills",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
@@ -75,30 +101,23 @@
         },
         "user_id": {
           "name": "user_id",
-          "type": "varchar",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
-        "balance": {
-          "name": "balance",
-          "type": "numeric",
+        "balance_in_cents": {
+          "name": "balance_in_cents",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "default": "'0'"
+          "default": 0
         },
-        "debt": {
-          "name": "debt",
-          "type": "numeric",
+        "debt_in_cents": {
+          "name": "debt_in_cents",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "default": "'0'"
-        },
-        "total_amount": {
-          "name": "total_amount",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "'0'"
+          "default": 0
         },
         "created_at": {
           "name": "created_at",
@@ -109,7 +128,21 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "user_wallet_user_id_user_id_fk": {
+          "name": "user_wallet_user_id_user_id_fk",
+          "tableFrom": "user_wallet",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},

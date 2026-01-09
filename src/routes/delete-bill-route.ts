@@ -5,7 +5,7 @@ import { deleteBill } from '../functions/delete-bill'
 
 export const deleteBillRoute: FastifyPluginAsyncZod = async app => {
     app.delete(
-        '/financial-bill/delete/:billId',
+        '/financial/:billId/delete',
         {
             schema: {
                 summary: 'Delete a specific bill',
@@ -17,11 +17,11 @@ export const deleteBillRoute: FastifyPluginAsyncZod = async app => {
             },
         },
         async (req, res) => {
-            const billId = req.params.billId
+            const { billId } = req.params
 
             await deleteBill(billId)
 
             return res.status(204).send({})
         }
-    )    
+    )
 }
